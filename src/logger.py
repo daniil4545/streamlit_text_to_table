@@ -21,7 +21,7 @@ class Logger:
 
             # Файловый хэндлер
             fh = logging.FileHandler("app.log", encoding="utf-8")
-            fh.setLevel(logging.info)
+            fh.setLevel(logging.INFO)
   
             formatter = logging.Formatter(
                 fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
