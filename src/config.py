@@ -8,7 +8,7 @@ class Config:
     """
     def __init__(
             self,
-            data_dir: Path = Path("C:/Users/Daniil/Documents/tests/test"),
+            data_dir: Path = Path("/mnt/data"),
             max_file_size_mb: float = 50.0,
             allowed_ext: List[str] = None,
             encoding_detect_bytes: int = 1000,
