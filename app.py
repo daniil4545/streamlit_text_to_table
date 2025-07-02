@@ -29,9 +29,23 @@ def main():
         loader = DataLoader(config)
         df = loader.load_dataframe(latest_file)
 
-        # Отображение результатов в Streamlit
+        # Отображение и редактирование данных в Streamlit
         st.markdown(f"**Загружен файл:** `{latest_file.name}`")
-        st.dataframe(df)
+        edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+
+        if st.button("Сохранить изменения в файл"):
+            try:
+                # Сохраняем только для текстовых файлов (csv, txt)
+                if latest_file.suffix.lower() in [".csv", ".txt"]:
+                    edited_df.to_csv(latest_file, index=False, encoding="utf-8")
+                elif latest_file.suffix.lower() in [".xls", ".xlsx"]:
+                    edited_df.to_excel(latest_file, index=False)
+                st.success("Изменения успешно сохранены!")
+                
+                logger.info(f"Файл {latest_file.name} был изменён через data_editor.")
+            except Exception as e:
+                st.error(f"Ошибка при сохранении файла: {e}")
+                logger.error(f"Ошибка при сохранении файла {latest_file.name}: {e}")
 
     except FileManagerError as e:
         logger.error(f"File manager error: {e}")
